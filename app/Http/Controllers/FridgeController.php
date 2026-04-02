@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\FridgeItem;
+use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class FridgeController extends Controller
 {
-    // Получить все продукты
+    use ApiResponseTrait;
+
     public function index()
     {
-        return response()->json(FridgeItem::all());
+        $items = FridgeItem::all();
+        return $this->success($items, 'Products retrieved successfully');
     }
 
-    // Добавить продукт
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -25,20 +27,27 @@ class FridgeController extends Controller
         ]);
 
         $item = FridgeItem::create($validated);
-        return response()->json($item, Response::HTTP_CREATED);
+        return $this->success($item, 'Product added successfully', Response::HTTP_CREATED);
     }
 
-    // Показать один продукт
     public function show($id)
     {
-        $item = FridgeItem::findOrFail($id);
-        return response()->json($item);
+        $item = FridgeItem::find($id);
+        
+        if (!$item) {
+            return $this->error('Product not found', Response::HTTP_NOT_FOUND);
+        }
+        
+        return $this->success($item, 'Product retrieved successfully');
     }
 
-    // Обновить продукт
     public function update(Request $request, $id)
     {
-        $item = FridgeItem::findOrFail($id);
+        $item = FridgeItem::find($id);
+        
+        if (!$item) {
+            return $this->error('Product not found', Response::HTTP_NOT_FOUND);
+        }
 
         $validated = $request->validate([
             'name' => 'string|max:255',
@@ -48,14 +57,18 @@ class FridgeController extends Controller
         ]);
 
         $item->update($validated);
-        return response()->json($item);
+        return $this->success($item, 'Product updated successfully');
     }
 
-    // Удалить продукт
     public function destroy($id)
     {
-        $item = FridgeItem::findOrFail($id);
+        $item = FridgeItem::find($id);
+        
+        if (!$item) {
+            return $this->error('Product not found', Response::HTTP_NOT_FOUND);
+        }
+        
         $item->delete();
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        return $this->success(null, 'Product deleted successfully', Response::HTTP_OK);
     }
 }
