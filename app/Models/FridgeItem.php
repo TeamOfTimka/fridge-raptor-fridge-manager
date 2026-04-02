@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class FridgeItem extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'quantity',
+        'unit',
+        'expires_at'
+    ];
 }
