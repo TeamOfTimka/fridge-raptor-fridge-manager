@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FridgeItem extends Model
 {
-    use HasFactory;  // ← ЭТА СТРОКА БЫЛА ОТСУТСТВОВАЛА
+    use HasFactory;
 
     protected $fillable = [
         'name',

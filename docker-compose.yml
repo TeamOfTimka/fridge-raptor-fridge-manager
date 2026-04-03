@@ -1,0 +1,38 @@
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: fridge_db
+    environment:
+      POSTGRES_DB: fridge
+      POSTGRES_USER: fridge_user
+      POSTGRES_PASSWORD: db_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fridge_user -d fridge"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: fridge_app
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_DATABASE: fridge
+      DB_USERNAME: fridge_user
+      DB_PASSWORD: db_password
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+
+volumes:
+  postgres_data:
