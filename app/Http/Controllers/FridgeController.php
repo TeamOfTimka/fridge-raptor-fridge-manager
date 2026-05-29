@@ -23,7 +23,6 @@ class FridgeController extends Controller
             'name' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
             'unit' => 'string|max:50',
-            'expires_at' => 'nullable|date',
         ]);
 
         $item = FridgeItem::create($validated);
@@ -53,7 +52,6 @@ class FridgeController extends Controller
             'name' => 'string|max:255',
             'quantity' => 'integer|min:0',
             'unit' => 'string|max:50',
-            'expires_at' => 'nullable|date',
         ]);
 
         $item->update($validated);

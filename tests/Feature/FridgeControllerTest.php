@@ -22,7 +22,7 @@ class FridgeControllerTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    '*' => ['id', 'name', 'quantity', 'unit', 'expires_at']
+                    '*' => ['id', 'name', 'quantity', 'unit']
                 ]
             ])
             ->assertJsonCount(2, 'data');
@@ -33,8 +33,7 @@ class FridgeControllerTest extends TestCase
         $productData = [
             'name' => 'Cheese',
             'quantity' => 3,
-            'unit' => 'pieces',
-            'expires_at' => '2025-12-31'
+            'unit' => 'pieces'
         ];
 
         $response = $this->postJson('/api/fridge', $productData);

@@ -13,7 +13,6 @@ return new class extends Migration
             $table->string('name');
             $table->integer('quantity');
             $table->string('unit')->default('шт');
-            $table->date('expires_at')->nullable();
             $table->timestamps();
         });
     }

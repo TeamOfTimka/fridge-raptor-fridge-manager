@@ -12,7 +12,6 @@ class FridgeItemFactory extends Factory
             'name' => $this->faker->word(),
             'quantity' => $this->faker->numberBetween(1, 100),
             'unit' => $this->faker->randomElement(['шт', 'кг', 'л', 'г']),
-            'expires_at' => $this->faker->optional()->dateTimeBetween('now', '+1 year'),
         ];
     }
 }
